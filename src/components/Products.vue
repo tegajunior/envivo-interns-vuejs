@@ -1,14 +1,14 @@
 <template>
   <div>
     <h3>{{ greetings }}</h3>
-    <ul class="list">
+    <transition-group class="list" name="products" tag="ul" appear>
       <ProductItem
         v-for="product in products"
         :key="product.id"
         :productItem="product"
         @onDeleteProduct="onDeleteProductHandler($event)"
       />
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -41,5 +41,16 @@ export default {
 .list {
   list-style: none;
   margin: 0;
+}
+.products-enter-active {
+  transition: all 0.5s ease-in;
+}
+.products-leave-active {
+ transition: all 0.5s ease-out;
+}
+
+.products-enter, .products-leave-to {
+  opacity: 0;
+  transform: translateY(50px)
 }
 </style>

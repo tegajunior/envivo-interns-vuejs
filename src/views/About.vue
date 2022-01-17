@@ -1,5 +1,15 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+  <Animation />
   </div>
 </template>
+
+<script>
+import Animation from '../components/Animation'
+export default {
+  name: "About",
+  components: {
+    Animation
+  }
+}
+</script>
