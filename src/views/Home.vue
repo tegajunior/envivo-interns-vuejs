@@ -1,8 +1,11 @@
 <template>
   <div class="home">
+    <div>
+      {{number}}
+    </div>
     <AddProduct @onAddProduct="addProductHandler($event)" />
     <Products
-      :products="myProducts2"
+      :products="myQuotes"
       :greetings="'Good afternoon!'"
       @onDeleteProduct="deleteProductHandler($event)"
     />
@@ -17,26 +20,58 @@ import AddProduct from '../components/AddProduct';
 
 export default {
   name: 'Home',
+  mounted() {
+    this.incrementNumber()
+    this.getAllQuotes();
+  },
   data() {
     return {
-      myProducts2: [
-        { id: 'm1', name: 'Cup 1' },
-        { id: 'm2', name: 'Cup 2' },
-        { id: 'm3', name: 'Cup 3' },
-      ],
+      myQuotes: [],
+      number: 0,
     };
   },
-  methods: {
-    addProductHandler: function (productName) {
-      const newProduct = {
-        id: new Date().toISOString(),
-        name: productName,
-      };
-      this.myProducts2.push(newProduct);
-    },
-    deleteProductHandler: function (productId) {
-      this.myProducts2 = this.myProducts2.filter(p => p.id !== productId);
+  
+  computed: {}, 
+  watch: {
+    number: function (val) {
     }
+  },
+  methods: {
+    incrementNumber: function () {
+      setInterval(() => {
+        this.number += 1;
+      }, 1000);
+    },
+    addProductHandler: async function(payload) {
+      const res = await fetch('http://localhost:3000/quotes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        this.getAllQuotes();
+      }
+    },
+
+    deleteProductHandler: async function (productId) {
+      // this.myProducts2 = this.myProducts2.filter((p) => p.id !== productId);
+      const res = await fetch(`http://localhost:3000/quotes/${productId}`, {method: 'DELETE', headers: {
+        'Content-Type': 'application/json'
+      }})
+      this.getAllQuotes();
+    },
+
+    getAllQuotes: async function () {
+      const res = await fetch('http://localhost:3000/quotes');
+      if (res.ok) {
+        const data = await res.json();
+        this.myQuotes = data;
+      }
+    },
+    
   },
   components: {
     Products,

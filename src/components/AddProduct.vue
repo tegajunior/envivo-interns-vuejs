@@ -1,9 +1,11 @@
 <template>
   <div>
     <form @submit="onAddProduct">
-      <label for="product-name">Product Name</label>
+      <label for="product-name">Quote</label>
       <input type="text" id="product-name" v-model.trim="productName" />
-      <button type="submit">Add Product</button>
+      <label for="author">Author</label>
+      <input type="text" id="author" v-model.trim="author" />
+      <button type="submit">Add Quote</button>
     </form>
   </div>
 </template>
@@ -13,16 +15,21 @@ export default {
   name: "AddProduct",
   data() {
     return {
-      productName: ''
+      productName: '',
+      author: "",
     }
   },
   methods: {
     onAddProduct: function(event) {
       event.preventDefault();
       if(this.productName.trim().length === 0) {
-        return
+        return 
       }
-      this.$emit('onAddProduct', this.productName);
+      const payload = {
+        author: this.author,
+        quote: this.productName
+      }
+      this.$emit('onAddProduct', payload);
     }
   }
 }

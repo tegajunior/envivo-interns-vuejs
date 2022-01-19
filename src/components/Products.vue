@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>{{ greetings }}</h3>
+    <h3>Click on Quotes to Delete</h3>
     <transition-group class="list" name="products" tag="ul" appear>
       <ProductItem
         v-for="product in products"

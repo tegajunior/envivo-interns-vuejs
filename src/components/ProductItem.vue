@@ -1,6 +1,7 @@
 <template>
   <li class="product" @click="onDeleteProduct">
-    {{productItem.name}}
+    <span class="author">{{productItem.author}}</span>
+    {{productItem.quote}}
   </li>
 </template>
 
@@ -24,7 +25,7 @@ export default {
 <style scoped>
   .product{
     margin: 20px;
-    padding: 20px;
+    padding: 40px;
     background-color: #e5e5e5;
     border-radius: 5px;
     cursor: pointer;
@@ -32,5 +33,11 @@ export default {
   .product:hover {
     background-color: #6e7056;
     color: #fff;
+  }
+  .author {
+    display: block;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-weight: bold;
   }
 </style>
