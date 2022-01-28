@@ -3,7 +3,7 @@
     <h3>This is List of Products</h3>
     <router-link to="/checkout">
       <div class="cart">
-        Cart ({{ totalItems }}) &nbsp; {{ cart.totalAmount }}
+        Cart ({{ totalItems }})
       </div>
     </router-link>
     <div class="products">

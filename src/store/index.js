@@ -8,7 +8,7 @@ export default new Vuex.Store({
     cart: {
       items: [],
       totalAmount: 0,
-    }
+    },
   },
   getters: {
     totalItems: state => {
@@ -49,6 +49,27 @@ export default new Vuex.Store({
       state.cart.items = updatedItems;
       state.cart.totalAmount = updatedTotalPrice;
       
+    },
+    decrement (state, payload) {
+      const updatedTotalAmount = state.cart.totalAmount - payload.price;
+
+      const productIndex = state.cart.items.findIndex(item => item.id === payload.id);
+      const productToSub = state.cart.items[productIndex];
+      let updatedItems;
+      if (productToSub) {
+        if (productToSub.amount === 1) {
+          updatedItems = state.cart.items.filter(item => item.id !== payload.id);
+        } else {
+          const updatedItem = {...payload, amount: productToSub.amount - 1};
+          updatedItems = [...state.cart.items];
+          updatedItems[productIndex] = updatedItem;
+        }
+      }
+      state.cart.items = updatedItems;
+      state.cart.totalAmount = updatedTotalAmount;
+    },
+    cancel (state) {
+      state.cart = { items: [], totalAmount: 0 };
     }
   },
   actions: {
